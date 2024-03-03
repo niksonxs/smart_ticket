@@ -1,87 +1,125 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Headroom from "headroom.js";
 
-import './navbar.css';
+import "./navbar.css";
 
-import { ReactComponent as LogoText } from '../../assets/img/brand/logo-text.svg';
+import { ReactComponent as LogoText } from "../../assets/img/brand/logo-text.svg";
 import {
   Button,
-  UncontrolledCollapse,
   NavbarBrand,
   Navbar,
   NavItem,
   Nav,
   Container,
-  Row,
-  Col,
 } from "reactstrap";
+import { useAuthStore } from "../../store/AuthStoreProvider";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import { AuthenticationContext, Role } from "../../types";
 
 const DemoNavbar = () => {
+  useEffect(() => {
+    let headroom = new Headroom(document.getElementById("navbar-main")!);
+    // initialise
+    headroom.init();
+  }, []);
+  const navigate = useNavigate();
+  const { auth, setAuth } = useAuthStore();
+
+  const handleLogout = () => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/signout`, {
+        withCredentials: true,
+      })
+      .finally(() => {
+        setAuth({
+          isAuth: false,
+        });
+        localStorage.clear();
+        sessionStorage.clear();
+        navigate("/");
+      });
+  };
+
+  useEffect(() => {
+    try {
+      const auth: AuthenticationContext = JSON.parse(
+        localStorage.getItem("auth")!
+      );
+      if (auth) {
+        setAuth({
+          role: auth.role,
+          balance: auth.balance,
+          username: auth.username,
+          isAuth: true,
+        });
+      }
+    } catch (error) {
+      handleLogout();
+    }
+  }, []);
 
   return (
     <>
       <header className="header-global">
         <Navbar
           className="navbar-main navbar-transparent navbar-light headroom"
-          expand="lg"
+          expand={true}
           id="navbar-main"
         >
           <Container>
             <NavbarBrand className="mr-lg-5" to="/" tag={Link}>
               <LogoText style={{ height: "20px", fill: "white" }} />
             </NavbarBrand>
-            <button className="navbar-toggler" id="navbar_global">
-              <span className="navbar-toggler-icon" />
-            </button>
-            <UncontrolledCollapse
-              toggler="#navbar_global"
-              navbar
-            >
-              <div className="navbar-collapse-header">
-                <Row>
-                  <Col className="collapse-brand" xs="6">
-                    <Link to="/">
-                      <img
-                        alt="..."
-                        src="assets/img/brand/logo.svg"
-                      />
-                    </Link>
-                  </Col>
-                  <Col className="collapse-close" xs="6">
-                    <button className="navbar-toggler" id="navbar_global">
-                      <span />
-                      <span />
-                    </button>
-                  </Col>
-                </Row>
-              </div>
 
-              <Nav className="align-items-lg-center ml-lg-auto" navbar>
-                <NavItem className="d-none d-lg-block ml-lg-4">
-                  <Button
-                    className="btn-text btn-icon"
-                    color="default"
-                    href="/register-page"
-                  >
-                    <span className="nav-link-inner--text ml-1">
-                      Sign up
+            <Nav className="align-items-center" navbar>
+              {auth.isAuth ? (
+                <>
+                  <NavItem className="mr-2">
+                    <span className="bg-white text-green font-weight-bold responsive-button">
+                      {auth.balance} Lei
                     </span>
-                  </Button>
-                </NavItem>
-                <NavItem className="d-none d-lg-block ml-lg-4">
-                  <Button
-                    href="/login-page"
-                    className="btn-neutral btn-icon"
-                    color="default"
-                  >
-                    <span className="nav-link-inner--text ml-1">
-                      Sign in
-                    </span>
-                  </Button>
-                </NavItem>
-              </Nav>
-            </UncontrolledCollapse>
+                  </NavItem>
+                  <NavItem className=" d-lg-block ">
+                    <Button
+                      className="btn-text btn-icon responsive-button"
+                      color="default"
+                      onClick={handleLogout}
+                    >
+                      <span className="nav-link-inner--text ml-1 responsive-font">
+                        Logout
+                      </span>
+                    </Button>
+                  </NavItem>
+                </>
+              ) : (
+                <>
+                  <NavItem className=" d-lg-block ">
+                    <Button
+                      className="btn-text btn-icon responsive-button"
+                      color="default"
+                      onClick={() => navigate("/register")}
+                    >
+                      <span className="nav-link-inner--text ml-1 responsive-font">
+                        Register
+                      </span>
+                    </Button>
+                  </NavItem>
+                  <NavItem className=" d-lg-block ml-2 ml-lg-4">
+                    <Button
+                      onClick={() => navigate("/login")}
+                      className="btn-neutral btn-icon responsive-button"
+                      color="default"
+                    >
+                      <span className="nav-link-inner--text ml-1 responsive-font">
+                        Log in
+                      </span>
+                    </Button>
+                  </NavItem>
+                </>
+              )}
+            </Nav>
           </Container>
         </Navbar>
       </header>
