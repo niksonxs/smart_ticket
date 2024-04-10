@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Container, Row, Col, Card, CardBody, Button } from "reactstrap";
+import { useEffect, useState } from "react";
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
 import { useAuthStore } from "../../store/AuthStoreProvider";
 import ReactLoading from "react-loading";
 import { useNavigate } from "react-router-dom";
@@ -72,10 +72,20 @@ const Tickets = () => {
                                 </p>
                               </div>
                               <p>
-                                {ticket.isUsed ? (
-                                  <p className="text-danger">INVALID</p>
+                                {new Date(ticket.expirationDate) >
+                                new Date() ? (
+                                  <>
+                                    {" "}
+                                    {ticket.isUsed && (
+                                      <p className="responsive-label text-warning border-warning ">
+                                        FOLOSIT
+                                      </p>
+                                    )}
+                                  </>
                                 ) : (
-                                  <p className="text-success">VALID</p>
+                                  <p className="responsive-label text-danger border-danger ">
+                                    EXPIRAT
+                                  </p>
                                 )}
                               </p>
                             </div>

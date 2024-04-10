@@ -66,19 +66,26 @@ export const TicketView = () => {
                                 Chisinau
                               </p>
                             </div>
-                            {ticket.isUsed ? (
-                              <p className="text-danger">INVALID</p>
+                            {new Date(ticket.expirationDate) > new Date() ? (
+                              <>
+                                {" "}
+                                {ticket.isUsed && (
+                                  <p className="responsive-label text-warning border-warning ">
+                                    FOLOSIT
+                                  </p>
+                                )}
+                              </>
                             ) : (
-                              <p className="text-success">VALID</p>
+                              <p className="responsive-label text-danger border-danger ">
+                                EXPIRAT
+                              </p>
                             )}
                           </div>
                           <div
                             className="d-flex flex-column align-items-center  "
                             style={{ background: "white", padding: "16px" }}
                           >
-                            <QRCode
-                              value={`${process.env.REACT_APP_URL}/validate/${ticket.validationCode}`}
-                            />
+                            <QRCode value={ticket.validationCode} />
                             <div className="mt-2">
                               Cumparat: {smartDate(ticket.purchaseDate)}
                               <div>

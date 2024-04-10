@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import ImageCarousel from "./IndexSections/ImageCarousel";
 import { useAuthStore } from "../store/AuthStoreProvider";
-import { AuthorizedIndex } from "./examples/AuthorizedIndex";
 import { Container, Row, Col } from "reactstrap";
 import { IndexTickets } from "./examples";
 

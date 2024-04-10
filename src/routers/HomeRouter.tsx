@@ -6,6 +6,8 @@ import BuyTicket from "../views/examples/BuyTicket";
 import Tickets from "../views/examples/Tickets";
 import { TicketView } from "../views/examples";
 import { ValidateTicket } from "../views/examples/ValidateTicket";
+import { GoogleMap } from "views/examples/Map";
+import { TicketScanner } from "views/examples/TicketScanner";
 
 const HomeRouter = (props: any) => {
   return (
@@ -13,7 +15,10 @@ const HomeRouter = (props: any) => {
       <Route path="/" element={<Index />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/map" element={<GoogleMap />} />
       <Route path="/buy" element={<BuyTicket />} />
+
+      <Route path="/scan" element={<TicketScanner />} />
       <Route path="/tickets" element={<Tickets />} />
       <Route path="/tickets/:id" element={<TicketView />} />
       <Route path="/validate/:validationCode" element={<ValidateTicket />} />

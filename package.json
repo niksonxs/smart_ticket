@@ -28,15 +28,22 @@
     ]
   },
   "dependencies": {
-    "axios": "^1.6.7",
+    "@googlemaps/google-maps-services-js": "^3.3.42",
+    "@googlemaps/markerclusterer": "^2.5.3",
+    "@types/google.maps": "^3.55.5",
+    "@yudiel/react-qr-scanner": "^2.0.0-beta.3",
+    "axios": "^1.6.8",
     "bootstrap": "^4.6.2",
     "classnames": "2.3.2",
     "dayjs": "^1.11.10",
+    "eruda": "^3.0.1",
+    "google-map-react": "^2.2.1",
     "headroom.js": "0.12.0",
     "jwt-decode": "^3.1.2",
     "moment": "2.29.4",
     "nouislider": "15.4.0",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-datetime": "3.2.0",
     "react-dom": ">=16.0.0",
     "react-loading": "^2.0.3",
@@ -50,6 +57,8 @@
     "react-dom": ">=16.0.0"
   },
   "devDependencies": {
+    "@types/google-map-react": "^2.1.10",
+    "@types/googlemaps": "^3.43.3",
     "@types/headroom.js": "^0.12.4",
     "@types/markerclustererplus": "2.1.33",
     "@types/react": "18.2.6",
