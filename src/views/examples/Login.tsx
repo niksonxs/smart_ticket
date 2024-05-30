@@ -33,7 +33,6 @@ export const Login = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     const { username, password } = e.target.elements;
-    console.log(username.value, password.value);
 
     axios
       .post(`${process.env.REACT_APP_API_URL}/signin`, {
@@ -52,7 +51,7 @@ export const Login = () => {
           role: decodedToken.role,
           balance: decodedToken.balance,
         });
-        sessionStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
         localStorage.setItem("auth", JSON.stringify(decodedToken));
         navigate(`/`);

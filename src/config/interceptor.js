@@ -11,10 +11,10 @@ const refreshToken = async () => {
         refreshToken: localStorage.getItem("refreshToken"),
       }
     );
-    sessionStorage.setItem("accessToken", response.data.accessToken);
+    localStorage.setItem("accessToken", response.data.accessToken);
     refreshQueue.forEach((prom) => prom.resolve());
   } catch (error) {
-    sessionStorage.removeItem("accessToken");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     window.location.href = "/login";
     refreshQueue.forEach((prom) => prom.reject(error));
@@ -27,15 +27,6 @@ const refreshToken = async () => {
 
 axios.interceptors.response.use(
   (response) => {
-    if (response.data.balance) {
-      const balance = response.data.balance;
-      const auth = localStorage.getItem("auth");
-      if (auth) {
-        const authData = JSON.parse(auth);
-        authData.balance = balance;
-        localStorage.setItem("auth", JSON.stringify(authData));
-      }
-    }
     return response;
   },
   async (error) => {
@@ -44,7 +35,7 @@ axios.interceptors.response.use(
       isRefreshing = true;
       try {
         await refreshToken();
-        const accessToken = sessionStorage.getItem("accessToken");
+        const accessToken = localStorage.getItem("accessToken");
         originalConfig.headers["Authorization"] = `Bearer ${accessToken}`;
         return axios(originalConfig);
       } catch (error) {
@@ -55,7 +46,7 @@ axios.interceptors.response.use(
         refreshQueue.push({ resolve, reject });
       })
         .then(async () => {
-          const accessToken = sessionStorage.getItem("accessToken");
+          const accessToken = localStorage.getItem("accessToken");
           originalConfig.headers["Authorization"] = `Bearer ${accessToken}`;
           return axios(originalConfig);
         })
@@ -69,7 +60,7 @@ axios.interceptors.response.use(
 
 axios.interceptors.request.use(
   (config) => {
-    const accessToken = sessionStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
     }

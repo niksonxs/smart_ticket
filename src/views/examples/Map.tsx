@@ -11,10 +11,6 @@ var { Map } = (await google.maps.importLibrary(
 export const GoogleMap = () => {
   useEffect(() => {
     const initMap = async () => {
-      // const { AdvancedMarkerElement } = (await google.maps.importLibrary(
-      //   "marker"
-      // )) as google.maps.MarkerLibrary;
-
       map = new Map(document.getElementById("map")!, {
         center: { lat: 47.01, lng: 28.862 },
         zoom: 14,

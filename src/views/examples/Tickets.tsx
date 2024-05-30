@@ -11,7 +11,6 @@ const Tickets = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [tickets, setTickets] = useState<Ticket[]>([]);
-  const { auth, setAuth } = useAuthStore();
 
   useEffect(() => {
     axios
@@ -77,7 +76,7 @@ const Tickets = () => {
                                   <>
                                     {" "}
                                     {ticket.isUsed && (
-                                      <p className="responsive-label text-warning border-warning ">
+                                      <p className="responsive-label text-warning border-warning border-0 ">
                                         FOLOSIT
                                       </p>
                                     )}

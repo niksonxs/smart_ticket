@@ -8,6 +8,7 @@ import { TicketView } from "../views/examples";
 import { ValidateTicket } from "../views/examples/ValidateTicket";
 import { GoogleMap } from "views/examples/Map";
 import { TicketScanner } from "views/examples/TicketScanner";
+import { Success } from "views/examples/Success";
 
 const HomeRouter = (props: any) => {
   return (
@@ -17,6 +18,7 @@ const HomeRouter = (props: any) => {
       <Route path="/register" element={<Register />} />
       <Route path="/map" element={<GoogleMap />} />
       <Route path="/buy" element={<BuyTicket />} />
+      <Route path="/success" element={<Success />} />
 
       <Route path="/scan" element={<TicketScanner />} />
       <Route path="/tickets" element={<Tickets />} />

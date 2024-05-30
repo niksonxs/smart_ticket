@@ -15,7 +15,7 @@ const BuyTicket = () => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
-      if (auth.balance! < 6) {
+      if (auth?.balance! < 6) {
         alert("Fonduri insuficiente");
         setLoading(false);
         return;
@@ -25,7 +25,7 @@ const BuyTicket = () => {
         .then((response) => {
           setAuth({
             ...auth,
-            balance: auth.balance! - 6,
+            balance: auth?.balance! - 6,
           });
           navigate(`/tickets/${response.data.id}`);
         })

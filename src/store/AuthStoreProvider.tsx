@@ -4,7 +4,7 @@ import React from "react";
 import { GlobalState } from "../types";
 
 const AuthContext = React.createContext<{
-  auth: GlobalState;
+  auth: GlobalState | null;
   setAuth: (auth: GlobalState) => void;
 } | null>(null);
 
@@ -18,11 +18,7 @@ export const useAuthStore = () => {
 };
 
 const AuthStoreProvider = ({ children }: any) => {
-  const [auth, setAuth] = React.useState<GlobalState>({
-    isAuth: false,
-    username: "",
-    balance: 0,
-  });
+  const [auth, setAuth] = React.useState<GlobalState | null>(null);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

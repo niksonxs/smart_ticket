@@ -15,8 +15,7 @@ import {
 } from "reactstrap";
 import { useAuthStore } from "../../store/AuthStoreProvider";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
-import { AuthenticationContext, Role } from "../../types";
+import { AuthenticationContext } from "../../types";
 
 const DemoNavbar = () => {
   useEffect(() => {
@@ -37,21 +36,21 @@ const DemoNavbar = () => {
           isAuth: false,
         });
         localStorage.clear();
-        sessionStorage.clear();
         navigate("/");
       });
   };
 
   useEffect(() => {
     try {
-      const auth: AuthenticationContext = JSON.parse(
+      const authContext: AuthenticationContext = JSON.parse(
         localStorage.getItem("auth")!
       );
-      if (auth) {
+
+      if (authContext) {
         setAuth({
-          role: auth.role,
-          balance: auth.balance,
-          username: auth.username,
+          role: authContext.role,
+          balance: authContext.balance,
+          username: authContext.username,
           isAuth: true,
         });
       }
@@ -74,49 +73,55 @@ const DemoNavbar = () => {
             </NavbarBrand>
 
             <Nav className="align-items-center" navbar>
-              {auth.isAuth ? (
+              {auth?.isAuth ? (
                 <>
-                  <NavItem className="mr-2">
-                    <span className="bg-white text-green font-weight-bold responsive-button">
-                      {auth.balance} Lei
-                    </span>
-                  </NavItem>
-                  <NavItem className=" d-lg-block ">
-                    <Button
-                      className="btn-text btn-icon responsive-button"
-                      color="default"
-                      onClick={handleLogout}
-                    >
-                      <span className="nav-link-inner--text ml-1 responsive-font">
-                        Logout
+                  <div className="d-flex flex-column align-items-center">
+                    {" "}
+                    <NavItem className="mb-2">
+                      <span className="bg-white text-green font-weight-bold responsive-button">
+                        {auth.balance} Lei
                       </span>
-                    </Button>
-                  </NavItem>
+                    </NavItem>
+                    <NavItem className=" d-lg-block ">
+                      <Button
+                        className="btn-info btn-icon responsive-button"
+                        color="default"
+                        onClick={handleLogout}
+                      >
+                        <span className="nav-link-inner--text ml-1 responsive-font">
+                          Delogare
+                        </span>
+                      </Button>
+                    </NavItem>
+                  </div>
                 </>
               ) : (
                 <>
-                  <NavItem className=" d-lg-block ">
-                    <Button
-                      className="btn-text btn-icon responsive-button"
-                      color="default"
-                      onClick={() => navigate("/register")}
-                    >
-                      <span className="nav-link-inner--text ml-1 responsive-font">
-                        Register
-                      </span>
-                    </Button>
-                  </NavItem>
-                  <NavItem className=" d-lg-block ml-2 ml-lg-4">
-                    <Button
-                      onClick={() => navigate("/login")}
-                      className="btn-neutral btn-icon responsive-button"
-                      color="default"
-                    >
-                      <span className="nav-link-inner--text ml-1 responsive-font">
-                        Log in
-                      </span>
-                    </Button>
-                  </NavItem>
+                  <div className="d-flex flex-column  align-items-center ">
+                    {" "}
+                    <NavItem className=" d-lg-block mb-2">
+                      <Button
+                        className="btn-text btn-icon responsive-button"
+                        color="default"
+                        onClick={() => navigate("/register")}
+                      >
+                        <span className="nav-link-inner--text ml-1 responsive-font">
+                          Inregistrare
+                        </span>
+                      </Button>
+                    </NavItem>
+                    <NavItem className=" d-lg-block ml-2 ml-lg-4">
+                      <Button
+                        onClick={() => navigate("/login")}
+                        className="btn-neutral btn-icon responsive-button"
+                        color="default"
+                      >
+                        <span className="nav-link-inner--text ml-1 responsive-font">
+                          Logare
+                        </span>
+                      </Button>
+                    </NavItem>
+                  </div>
                 </>
               )}
             </Nav>

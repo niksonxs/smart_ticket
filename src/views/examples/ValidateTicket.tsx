@@ -9,9 +9,9 @@ import { smartDate } from "../../utils";
 import QRCode from "react-qr-code";
 
 export const ValidateTicket = () => {
+  const { auth, setAuth } = useAuthStore();
   const [ticket, setTicket] = useState<Ticket>();
   const [isValid, setIsValid] = useState<boolean | null>(null);
-  const { auth, setAuth } = useAuthStore();
   const { validationCode } = useParams();
 
   useEffect(() => {
@@ -79,13 +79,13 @@ export const ValidateTicket = () => {
                                 <>
                                   {" "}
                                   {ticket.isUsed && (
-                                    <p className="responsive-label text-warning border-warning ">
+                                    <p className="responsive-label text-warning">
                                       FOLOSIT
                                     </p>
                                   )}
                                 </>
                               ) : (
-                                <p className="responsive-label text-danger border-danger ">
+                                <p className="responsive-label text-danger">
                                   EXPIRAT
                                 </p>
                               )}
@@ -93,7 +93,7 @@ export const ValidateTicket = () => {
                           </div>
                           {isValid ? (
                             <h3 className="text-green">
-                              Acest bilet a fost validat
+                              Acest bilet este valid
                             </h3>
                           ) : (
                             <h3 className="text-red">

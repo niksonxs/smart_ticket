@@ -10,7 +10,6 @@ import QRCode from "react-qr-code";
 
 export const TicketView = () => {
   const [ticket, setTicket] = useState<Ticket>();
-  const { auth, setAuth } = useAuthStore();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -70,13 +69,13 @@ export const TicketView = () => {
                               <>
                                 {" "}
                                 {ticket.isUsed && (
-                                  <p className="responsive-label text-warning border-warning ">
+                                  <p className="responsive-label text-warning border-0">
                                     FOLOSIT
                                   </p>
                                 )}
                               </>
                             ) : (
-                              <p className="responsive-label text-danger border-danger ">
+                              <p className="responsive-label text-danger border-0  ">
                                 EXPIRAT
                               </p>
                             )}
@@ -90,6 +89,15 @@ export const TicketView = () => {
                               Cumparat: {smartDate(ticket.purchaseDate)}
                               <div>
                                 Valabil: {smartDate(ticket.expirationDate)}
+                                {ticket.validatedBy ? (
+                                  <p>
+                                    Validat de: {ticket.validatedBy.firstName}{" "}
+                                    {ticket.validatedBy.lastName} (
+                                    {ticket.validatedBy.id})
+                                  </p>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                             </div>
                           </div>

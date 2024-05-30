@@ -31,10 +31,6 @@ export const TicketScanner = () => {
   };
 
   const isValid = () => {
-    console.log(ticket?.isUsed);
-    console.log(new Date(ticket?.expirationDate!) < new Date());
-
-    console.log(!(ticket?.isUsed && ticket?.expirationDate < new Date()));
     return !(ticket?.isUsed && new Date(ticket?.expirationDate) < new Date());
   };
 
@@ -112,13 +108,13 @@ export const TicketScanner = () => {
                             <>
                               {" "}
                               {ticket.isUsed && (
-                                <p className="responsive-label text-warning border-warning ">
+                                <p className="responsive-label text-warning">
                                   FOLOSIT
                                 </p>
                               )}
                             </>
                           ) : (
-                            <p className="responsive-label text-danger border-danger ">
+                            <p className="responsive-label text-danger">
                               EXPIRAT
                             </p>
                           )}

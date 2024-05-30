@@ -30,24 +30,22 @@ const Index = () => {
             <span />
             <span />
           </div>
-          <Container className="py-md">
-            <Row className="justify-content-between align-items-center pt-5 pt-lg-0">
-              <Col className="mb-5 mb-lg-0" lg="5">
-                <h2 className="text-white font-weight-light">
-                  Bine ati venit{auth.isAuth ? `, ${auth.username}` : ""}
-                </h2>
-                {auth.isAuth ? (
-                  <IndexTickets />
-                ) : (
-                  <p className="lead text-white mt-2">
-                    Aici puteti procura bilete pentru transportul public din
-                    Chisinau
-                  </p>
-                )}
-              </Col>
-              <ImageCarousel />
-            </Row>
-          </Container>
+          <Row className="justify-content-between align-items-center pt-5 pt-lg-0">
+            <Col className="mb-5 mb-lg-0" lg="5">
+              <h2 className="text-white font-weight-light">
+                Bine ati venit{auth?.isAuth ? `, ${auth?.username}` : ""}
+              </h2>
+              {auth?.isAuth ? (
+                <IndexTickets />
+              ) : (
+                <p className="lead text-white mt-2">
+                  Aici puteti procura bilete pentru transportul public din
+                  Chisinau
+                </p>
+              )}
+            </Col>
+            <ImageCarousel />
+          </Row>
         </section>
       </main>
     </>

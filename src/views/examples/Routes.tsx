@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import "./map.css";
 import { map } from "./Map";
 import axios from "axios";
-import { MarkerClusterer } from "@googlemaps/markerclusterer";
 
 interface VehiclePosition {
   id: string;
@@ -20,6 +19,7 @@ interface VehiclePosition {
   x_rand: number;
   speed: number;
   route_id: number;
+  route_short_name: string;
   trip_id?: string;
 }
 
@@ -57,17 +57,18 @@ var markers: google.maps.marker.AdvancedMarkerElement[] = [];
 
 export const Routes = () => {
   const [routes, setRoutes] = useState<VehiclePosition[]>([]);
-  let cluster: MarkerClusterer = new MarkerClusterer({ map, markers });
+  const [vehicles, setVehicles] = useState<any>([]);
 
   const prepareRoutes = async (routes: VehiclePosition[]) => {
     markers.forEach((marker) => (marker.map = null));
-    cluster?.clearMarkers();
     markers = (await Promise.all(
       routes.map(async (route: VehiclePosition) => {
         if (route.latitude && route.longitude && route.route_id) {
           const routeMarker = document.createElement("div");
           routeMarker.className = "route";
-          routeMarker.textContent = route.route_id.toString();
+          routeMarker.textContent = vehicles.find(
+            (vehicle: any) => vehicle.route_id === route.route_id
+          )?.route_short_name;
 
           if (route.vehicle_type === VehicleType.Bus) {
             routeMarker.style.backgroundColor = "green";
@@ -85,21 +86,24 @@ export const Routes = () => {
     ).then((markers) =>
       markers.filter((marker) => marker !== undefined)
     )) as any;
-
-    cluster.addMarkers(markers);
   };
 
   useEffect(() => {
     prepareRoutes(routes);
   }, [routes]);
 
-  const url = "https://api.tranzy.dev/v1/opendata/vehicles";
+  const url = "https://api.tranzy.ai/v1/opendata/vehicles";
+  const urlV = "https://api.tranzy.ai/v1/opendata/routes";
 
   useEffect(() => {
     const headers = {
       "X-API-KEY": "0CTFfFOWaK4AUkp3CiZZb7LGmpRqwGqwamtsHWx8",
       "X-Agency-Id": "4",
     };
+    axios.get(urlV, { headers }).then((response) => {
+      setVehicles(response.data);
+      console.log(response.data);
+    });
     setInterval(() => {
       axios.get(url, { headers }).then((response) => {
         setRoutes(response.data);
